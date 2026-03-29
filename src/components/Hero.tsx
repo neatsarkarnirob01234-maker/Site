@@ -5,27 +5,27 @@ import { motion, AnimatePresence } from "motion/react";
 const banners = [
   {
     id: 1,
-    title: "Import Directly from China",
-    subtitle: "Get the best B2B deals on electronics and machinery.",
+    title: "Direct Global Sourcing",
+    subtitle: "Premium B2B solutions for electronics and industrial machinery.",
     image: "https://picsum.photos/seed/import/1200/400",
-    cta: "Start Importing",
-    color: "bg-orange-600"
+    cta: "Start Sourcing",
+    color: "bg-primary"
   },
   {
     id: 2,
-    title: "New Season Collection",
-    subtitle: "Up to 50% off on all clothing and footwear.",
+    title: "Curated Fashion Trends",
+    subtitle: "Discover high-quality apparel from verified manufacturers.",
     image: "https://picsum.photos/seed/fashion/1200/400",
-    cta: "Shop Now",
-    color: "bg-blue-600"
+    cta: "Explore Trends",
+    color: "bg-slate-900"
   },
   {
     id: 3,
-    title: "Premium Jewelry & Watches",
-    subtitle: "Exquisite designs for your special moments.",
+    title: "Luxury Timepieces",
+    subtitle: "Exquisite craftsmanship for the discerning importer.",
     image: "https://picsum.photos/seed/jewelry/1200/400",
-    cta: "Explore Collection",
-    color: "bg-purple-600"
+    cta: "View Collection",
+    color: "bg-secondary"
   }
 ];
 
@@ -111,7 +111,7 @@ export default function Hero() {
             key={i}
             onClick={() => setCurrent(i)}
             className={`h-1.5 rounded-full transition-all ${
-              current === i ? "w-8 bg-orange-500" : "w-2 bg-white/50"
+              current === i ? "w-8 bg-primary" : "w-2 bg-white/50"
             }`}
           />
         ))}

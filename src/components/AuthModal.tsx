@@ -71,7 +71,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
             {isLogin ? "Welcome Back" : "Join China Importer"}
           </h2>
           <p className="text-sm text-gray-500 font-medium">
-            {isLogin ? "Login to access your orders and wishlist." : "Create an account to start importing."}
+            {isLogin ? "Login to access your orders and wishlist." : "Create an account to start sourcing."}
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
                 <input
                   type="text"
                   placeholder="Full Name"
-                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-orange-500 focus:bg-white transition-all outline-none text-sm font-medium"
+                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-primary focus:bg-white transition-all outline-none text-sm font-medium"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -99,7 +99,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
                 <input
                   type="tel"
                   placeholder="Phone Number"
-                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-orange-500 focus:bg-white transition-all outline-none text-sm font-medium"
+                  className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-primary focus:bg-white transition-all outline-none text-sm font-medium"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   required
@@ -112,7 +112,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
             <input
               type="email"
               placeholder="Email Address"
-              className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-orange-500 focus:bg-white transition-all outline-none text-sm font-medium"
+              className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-primary focus:bg-white transition-all outline-none text-sm font-medium"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -123,7 +123,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
             <input
               type="password"
               placeholder="Password"
-              className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-orange-500 focus:bg-white transition-all outline-none text-sm font-medium"
+              className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl py-3 pl-12 pr-4 focus:border-primary focus:bg-white transition-all outline-none text-sm font-medium"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -133,7 +133,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
 
           <button
             type="submit"
-            className="w-full bg-gray-900 text-white font-bold py-4 rounded-2xl hover:bg-orange-600 transition-all shadow-lg flex items-center justify-center gap-2 group"
+            className="w-full bg-gray-900 text-white font-bold py-4 rounded-2xl hover:bg-primary transition-all shadow-lg flex items-center justify-center gap-2 group"
           >
             <span>{isLogin ? "Login" : "Register"}</span>
             <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -151,9 +151,9 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
 
         <button
           onClick={handleGoogleSignIn}
-          className="w-full bg-white border-2 border-gray-100 text-gray-700 font-bold py-4 rounded-2xl hover:border-orange-500 hover:bg-orange-50 transition-all flex items-center justify-center gap-3"
+          className="w-full bg-white border-2 border-gray-100 text-gray-700 font-bold py-4 rounded-2xl hover:border-primary hover:bg-primary/5 transition-all flex items-center justify-center gap-3"
         >
-          <Chrome className="h-5 w-5 text-orange-600" />
+          <Chrome className="h-5 w-5 text-primary" />
           <span>Google Account</span>
         </button>
 
@@ -161,7 +161,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
           <button
             onClick={() => setIsLogin(!isLogin)}
-            className="text-orange-600 font-bold hover:underline"
+            className="text-primary font-bold hover:underline"
           >
             {isLogin ? "Register Now" : "Login Now"}
           </button>
@@ -173,7 +173,7 @@ export default function AuthModal({ isOpen, onClose, isPage = false }: { isOpen:
   if (isPage) return content;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-[150] flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
       {content}
     </div>

@@ -62,13 +62,13 @@ export default function ProductGrid() {
       {/* Popular Categories */}
       <section>
         <div className="flex items-center gap-2 mb-6">
-          <TrendingUp className="h-6 w-6 text-orange-600" />
+          <TrendingUp className="h-6 w-6 text-primary" />
           <h2 className="text-xl font-black uppercase tracking-tighter">Popular Categories</h2>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
           {popularCategories.map((cat) => (
             <div key={cat.name} className="group cursor-pointer flex flex-col items-center gap-3">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-transparent group-hover:border-orange-500 transition-all p-1 bg-white shadow-sm">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-transparent group-hover:border-primary transition-all p-1 bg-white shadow-sm">
                 <img
                   src={cat.icon}
                   alt={cat.name}
@@ -76,7 +76,7 @@ export default function ProductGrid() {
                   referrerPolicy="no-referrer"
                 />
               </div>
-              <span className="text-xs font-bold uppercase tracking-widest group-hover:text-orange-600 transition-colors">
+              <span className="text-xs font-bold uppercase tracking-widest group-hover:text-primary transition-colors">
                 {cat.name}
               </span>
             </div>
@@ -85,19 +85,21 @@ export default function ProductGrid() {
       </section>
 
       {/* Today Trading / Flash Deals */}
-      <section className="bg-orange-50 rounded-3xl p-6 sm:p-8">
+      <section className="bg-slate-900 rounded-3xl p-6 sm:p-8 text-white">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <Clock className="h-6 w-6 text-orange-600" />
-            <h2 className="text-xl font-black uppercase tracking-tighter">Today Trading</h2>
+          <div className="flex items-center gap-3">
+            <div className="bg-secondary p-2 rounded-xl">
+              <Clock className="h-6 w-6 text-slate-900" />
+            </div>
+            <h2 className="text-xl font-black uppercase tracking-tighter">Limited Trading</h2>
           </div>
-          <div className="flex items-center gap-2 text-sm font-bold text-orange-600 uppercase tracking-widest">
-            <span>Ends in: 04:23:15</span>
+          <div className="flex items-center gap-2 text-sm font-bold text-secondary uppercase tracking-widest">
+            <span className="bg-secondary/10 px-3 py-1 rounded-full">Ends in: 04:23:15</span>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} dark />
           ))}
         </div>
       </section>
@@ -105,7 +107,7 @@ export default function ProductGrid() {
       {/* Most Sold Item */}
       <section>
         <div className="flex items-center gap-2 mb-6">
-          <Award className="h-6 w-6 text-orange-600" />
+          <Award className="h-6 w-6 text-primary" />
           <h2 className="text-xl font-black uppercase tracking-tighter">Most Sold Item</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -118,12 +120,15 @@ export default function ProductGrid() {
   );
 }
 
-function ProductCard({ product }: { product: any }) {
+function ProductCard({ product, dark = false }: { product: any; dark?: boolean }) {
   const { addToCart, toggleWishlist, wishlist } = useAuth();
   const isWishlisted = wishlist.includes(product.id);
 
   return (
-    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300">
+    <div className={cn(
+      "group rounded-2xl overflow-hidden border transition-all duration-300",
+      dark ? "bg-slate-800 border-slate-700 hover:bg-slate-750" : "bg-white border-slate-100 hover:shadow-xl hover:shadow-slate-200/50"
+    )}>
       <div className="relative aspect-square overflow-hidden">
         <img
           src={product.image}
@@ -136,7 +141,7 @@ function ProductCard({ product }: { product: any }) {
             onClick={() => toggleWishlist(product.id)}
             className={cn(
               "p-2 rounded-full backdrop-blur-md shadow-lg transition-colors",
-              isWishlisted ? "bg-orange-600 text-white" : "bg-white/80 text-gray-600 hover:text-orange-600"
+              isWishlisted ? "bg-secondary text-slate-900" : "bg-white/80 text-slate-600 hover:text-secondary"
             )}
           >
             <Heart className="h-5 w-5" fill={isWishlisted ? "currentColor" : "none"} />
@@ -152,29 +157,33 @@ function ProductCard({ product }: { product: any }) {
       </div>
       <div className="p-4">
         <div className="flex items-center gap-1 mb-2">
-          <div className="flex items-center text-orange-400">
+          <div className="flex items-center text-secondary">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-current" : "text-gray-200")}
+                className={cn("h-3 w-3", i < Math.floor(product.rating) ? "fill-current" : "text-slate-300")}
               />
             ))}
           </div>
-          <span className="text-[10px] font-bold text-gray-400">({product.reviews})</span>
+          <span className={cn("text-[10px] font-bold", dark ? "text-slate-400" : "text-slate-400")}>({product.reviews})</span>
         </div>
-        <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-1 group-hover:text-orange-600 transition-colors">
+        <h3 className={cn("text-sm font-bold mb-1 line-clamp-1 transition-colors", dark ? "text-white group-hover:text-secondary" : "text-slate-800 group-hover:text-primary")}>
           {product.name}
         </h3>
-        <p className="text-xs text-gray-400 mb-3 uppercase tracking-widest">{product.category}</p>
+        <p className="text-xs text-slate-400 mb-3 uppercase tracking-widest">{product.category}</p>
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-lg font-black text-gray-900 leading-none">৳{product.price.toLocaleString()}</span>
-            <span className="text-[10px] text-gray-400 line-through">৳{(product.price * 1.2).toLocaleString()}</span>
+            <span className={cn("text-lg font-black leading-none", dark ? "text-white" : "text-slate-900")}>৳{product.price.toLocaleString()}</span>
+            <span className="text-[10px] text-slate-400 line-through">৳{(product.price * 1.2).toLocaleString()}</span>
           </div>
           <button
             onClick={() => addToCart(product.id)}
             disabled={product.stockStatus === "out-of-stock"}
-            className="p-2.5 rounded-xl bg-gray-900 text-white hover:bg-orange-600 disabled:bg-gray-200 disabled:cursor-not-allowed transition-colors shadow-lg"
+            className={cn(
+              "p-2.5 rounded-xl transition-colors shadow-lg",
+              dark ? "bg-secondary text-slate-900 hover:bg-white" : "bg-slate-900 text-white hover:bg-primary",
+              "disabled:bg-slate-200 disabled:cursor-not-allowed"
+            )}
           >
             <ShoppingCart className="h-5 w-5" />
           </button>
