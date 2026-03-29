@@ -1,0 +1,165 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required, email format)
+    //   - phone: string (optional)
+    //   - displayName: string (optional)
+    //   - role: string (required, 'user' or 'admin')
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: products
+    // Document ID: {productId}
+    // Fields:
+    //   - id: string (required)
+    //   - name: string (required)
+    //   - description: string (required)
+    //   - price: number (required, positive)
+    //   - category: string (required)
+    //   - rating: number (required)
+    //   - stockStatus: string (required, 'in-stock' or 'out-of-stock')
+    //   - imageUrl: string (required, URL format)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: orders
+    // Document ID: {orderId}
+    // Fields:
+    //   - id: string (required)
+    //   - userId: string (required)
+    //   - items: list (required)
+    //   - totalAmount: number (required)
+    //   - shippingDetails: map (required)
+    //   - status: string (required, enum)
+    //   - createdAt: timestamp (required)
+    //
+    // Collection: carts
+    // Document ID: {userId}
+    // Fields:
+    //   - userId: string (required)
+    //   - items: list (required)
+    //   - updatedAt: timestamp (required)
+    //
+    // Collection: wishlists
+    // Document ID: {userId}
+    // Fields:
+    //   - userId: string (required)
+    //   - productIds: list (required)
+    //   - updatedAt: timestamp (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        ((request.auth.token.email == "neatsarkarnirob01234@gmail.com" && request.auth.token.email_verified == true) ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return hasRequiredFields(['uid', 'email', 'role', 'createdAt']) &&
+             hasOnlyAllowedFields(['uid', 'email', 'phone', 'displayName', 'role', 'createdAt']) &&
+             data.uid is string && data.uid.size() > 0 &&
+             isValidEmail(data.email) &&
+             data.role in ['user', 'admin'] &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidProduct(data) {
+      return hasRequiredFields(['id', 'name', 'description', 'price', 'category', 'rating', 'stockStatus', 'imageUrl', 'createdAt']) &&
+             hasOnlyAllowedFields(['id', 'name', 'description', 'price', 'category', 'rating', 'stockStatus', 'imageUrl', 'createdAt']) &&
+             data.price is number && data.price >= 0 &&
+             data.rating is number && data.rating >= 0 && data.rating <= 5 &&
+             data.stockStatus in ['in-stock', 'out-of-stock'] &&
+             isValidUrl(data.imageUrl);
+    }
+
+    function isValidOrder(data) {
+      return hasRequiredFields(['id', 'userId', 'items', 'totalAmount', 'shippingDetails', 'status', 'createdAt']) &&
+             data.totalAmount is number && data.totalAmount >= 0 &&
+             data.status in ['pending', 'processing', 'shipped', 'delivered', 'cancelled'];
+    }
+
+    function isValidCart(data) {
+      return hasRequiredFields(['userId', 'items', 'updatedAt']) &&
+             data.items is list;
+    }
+
+    function isValidWishlist(data) {
+      return hasRequiredFields(['userId', 'productIds', 'updatedAt']) &&
+             data.productIds is list;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow read: if isAdmin();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data) && 
+                      ((isOwner(userId) && request.resource.data.role == 'user') || isAdmin());
+      allow update: if isAuthenticated() && isValidUser(request.resource.data) && 
+                      ((isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin());
+    }
+
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isAuthenticated() && isValidOrder(request.resource.data) && 
+                      (request.resource.data.userId == request.auth.uid || isAdmin());
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /carts/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    match /wishlists/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}

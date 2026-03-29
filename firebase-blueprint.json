@@ -1,0 +1,105 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the e-commerce platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique ID of the user." },
+        "email": { "type": "string", "format": "email", "description": "The user's email address." },
+        "phone": { "type": "string", "description": "The user's phone number." },
+        "displayName": { "type": "string", "description": "The user's display name." },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "The user's role." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the user account was created." }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "An item for sale on the platform.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the product." },
+        "name": { "type": "string", "description": "The product name." },
+        "description": { "type": "string", "description": "A detailed description." },
+        "price": { "type": "number", "description": "The price in BDT." },
+        "category": { "type": "string", "description": "The product category." },
+        "rating": { "type": "number", "description": "Average user rating." },
+        "stockStatus": { "type": "string", "enum": ["in-stock", "out-of-stock"], "description": "Current stock status." },
+        "imageUrl": { "type": "string", "format": "uri", "description": "URL to the product image." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the product was listed." }
+      },
+      "required": ["id", "name", "price", "category", "stockStatus", "imageUrl"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique ID of the order." },
+        "userId": { "type": "string", "description": "The ID of the user who placed the order." },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "quantity": { "type": "integer" },
+              "price": { "type": "number" }
+            }
+          }
+        },
+        "totalAmount": { "type": "number", "description": "The total price of the order." },
+        "shippingDetails": {
+          "type": "object",
+          "properties": {
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "phone": { "type": "string" }
+          }
+        },
+        "status": { "type": "string", "enum": ["pending", "processing", "shipped", "delivered", "cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "items", "totalAmount", "shippingDetails", "status", "createdAt"]
+    },
+    "Cart": {
+      "title": "Cart",
+      "description": "A user's shopping cart.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "productId": { "type": "string" },
+              "quantity": { "type": "integer" }
+            }
+          }
+        },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "items", "updatedAt"]
+    },
+    "Wishlist": {
+      "title": "Wishlist",
+      "description": "A user's wishlist.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productIds": { "type": "array", "items": { "type": "string" } },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "productIds", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": { "schema": "User", "description": "User profiles." },
+    "products/{productId}": { "schema": "Product", "description": "Product catalog." },
+    "orders/{orderId}": { "schema": "Order", "description": "Customer orders." },
+    "carts/{userId}": { "schema": "Cart", "description": "Shopping carts." },
+    "wishlists/{userId}": { "schema": "Wishlist", "description": "User wishlists." }
+  }
+}
