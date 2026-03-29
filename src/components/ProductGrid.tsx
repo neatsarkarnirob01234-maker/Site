@@ -1,6 +1,7 @@
 import { TrendingUp, Clock, Award } from "lucide-react";
 import { products } from "../data/products";
 import ProductCard from "./ProductCard";
+import { Link } from "react-router-dom";
 
 const popularCategories = [
   { name: "Shoes", icon: "https://picsum.photos/seed/shoes/100/100" },
@@ -22,7 +23,11 @@ export default function ProductGrid() {
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-6 gap-4">
           {popularCategories.map((cat) => (
-            <div key={cat.name} className="group cursor-pointer flex flex-col items-center gap-3">
+            <Link 
+              key={cat.name} 
+              to={`/category/${cat.name.toLowerCase()}`}
+              className="group cursor-pointer flex flex-col items-center gap-3"
+            >
               <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-2 border-transparent group-hover:border-primary transition-all p-1 bg-white shadow-sm">
                 <img
                   src={cat.icon}
@@ -34,7 +39,7 @@ export default function ProductGrid() {
               <span className="text-xs font-bold uppercase tracking-widest group-hover:text-primary transition-colors">
                 {cat.name}
               </span>
-            </div>
+            </Link>
           ))}
         </div>
       </section>

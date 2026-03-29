@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
 import CartPage from "./pages/CartPage";
 import WishlistPage from "./pages/WishlistPage";
+import SearchPage from "./pages/SearchPage";
+import CategoryPage from "./pages/CategoryPage";
 import { ShoppingCart, Heart, User, Package, Settings, LogOut } from "lucide-react";
 import { auth } from "./firebase";
 import { signOut } from "firebase/auth";
@@ -134,6 +136,8 @@ export default function App() {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/category/:categoryName" element={<CategoryPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </Layout>

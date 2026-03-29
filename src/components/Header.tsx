@@ -12,6 +12,13 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
   const { user, cartCount, wishlistCount } = useAuth();
   const navigate = useNavigate();
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
+
   const handleImageSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -26,8 +33,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
         const result = await analyzeImageForSearch(base64Data, mimeType);
         if (result) {
           setSearchQuery(result);
-          // Optionally auto-submit or navigate to search results
-          // For now just fill the search bar
+          navigate(`/search?q=${encodeURIComponent(result)}`);
         }
         setIsSearchingImage(false);
       };
@@ -67,7 +73,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
           </Link>
 
           {/* Search Bar */}
-          <div className="flex-1 max-w-2xl hidden md:block">
+          <form onSubmit={handleSearchSubmit} className="flex-1 max-w-2xl hidden md:block">
             <div className="relative group">
               <input
                 type="text"
@@ -87,6 +93,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
                   className="hidden"
                 />
                 <button
+                  type="button"
                   onClick={triggerImageSearch}
                   disabled={isSearchingImage}
                   className={cn(
@@ -103,7 +110,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
                 </button>
               </div>
             </div>
-          </div>
+          </form>
 
           {/* Actions */}
           <div className="flex items-center gap-2 sm:gap-4">
@@ -134,7 +141,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
         
         {/* Mobile Search Bar */}
         <div className="md:hidden pb-4">
-          <div className="relative group">
+          <form onSubmit={handleSearchSubmit} className="relative group">
             <input
               type="text"
               placeholder="Search..."
@@ -146,6 +153,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
             
             <div className="absolute right-2 top-1 flex items-center gap-1">
               <button
+                type="button"
                 onClick={triggerImageSearch}
                 disabled={isSearchingImage}
                 className={cn(
@@ -160,7 +168,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
                 )}
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </header>
