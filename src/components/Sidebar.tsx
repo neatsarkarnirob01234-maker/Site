@@ -48,7 +48,7 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
           </button>
         </div>
 
-        <nav className="p-4 space-y-1">
+        <nav className="p-4 space-y-1 flex-1 overflow-y-auto">
           <div className="hidden lg:block mb-4 px-2">
             <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
               Categories
@@ -71,6 +71,18 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
               </div>
             </Link>
           ))}
+
+          <div className="pt-8 px-2 space-y-4">
+            <h2 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">
+              Support
+            </h2>
+            <div className="space-y-1">
+              <Link to="/help" className="block px-3 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors">Help Center</Link>
+              <Link to="/track-order" className="block px-3 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors">Track Order</Link>
+              <Link to="/contact" className="block px-3 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors">Contact Us</Link>
+              <Link to="/about" className="block px-3 py-2 text-sm font-bold text-slate-600 hover:text-primary transition-colors">About Us</Link>
+            </div>
+          </div>
         </nav>
 
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-100 bg-slate-50/50">
@@ -78,9 +90,13 @@ export default function Sidebar({ isOpen, onClose }: { isOpen: boolean; onClose:
             <div className="absolute top-0 right-0 w-20 h-20 bg-primary/20 rounded-full -mr-10 -mt-10 blur-2xl group-hover:bg-primary/30 transition-colors" />
             <h3 className="text-sm font-black mb-1 relative z-10 leading-tight">Direct China Sourcing</h3>
             <p className="text-[10px] text-slate-400 mb-4 relative z-10">Access verified manufacturers with premium support.</p>
-            <button className="w-full bg-secondary text-slate-900 text-[10px] font-black uppercase tracking-widest py-2 rounded-xl hover:bg-white transition-colors relative z-10">
+            <Link 
+              to="/login"
+              className="block w-full bg-secondary text-slate-900 text-[10px] font-black uppercase tracking-widest py-2 rounded-xl hover:bg-white transition-colors relative z-10 text-center"
+              onClick={() => onClose()}
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
       </aside>

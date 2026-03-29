@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Hero from "./components/Hero";
+import Features from "./components/Features";
 import ProductGrid from "./components/ProductGrid";
 import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
@@ -54,6 +55,7 @@ function HomePage() {
   return (
     <div className="space-y-8">
       <Hero />
+      <Features />
       <ProductGrid />
     </div>
   );

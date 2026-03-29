@@ -34,28 +34,20 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-8 text-secondary">Quick Links</h3>
-            <ul className="space-y-4 text-slate-400 text-sm font-bold">
-              <li><a href="#" className="hover:text-secondary transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Contact Us</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Terms & Conditions</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Shipping Info</a></li>
-            </ul>
-          </div>
-
-          {/* Categories */}
-          <div>
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-8 text-secondary">Categories</h3>
-            <ul className="space-y-4 text-slate-400 text-sm font-bold">
-              <li><a href="#" className="hover:text-secondary transition-colors">Electronics</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Fashion & Apparel</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Home & Garden</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Jewelry & Watches</a></li>
-              <li><a href="#" className="hover:text-secondary transition-colors">Bags & Shoes</a></li>
-            </ul>
+          {/* Newsletter */}
+          <div className="lg:col-span-2">
+            <h3 className="text-sm font-black uppercase tracking-[0.2em] mb-8 text-secondary">Join Our Newsletter</h3>
+            <p className="text-slate-400 text-sm mb-6 font-medium">Subscribe to get special offers, free giveaways, and once-in-a-lifetime deals.</p>
+            <form className="flex flex-col sm:flex-row gap-3 max-w-md" onSubmit={(e) => e.preventDefault()}>
+              <input 
+                type="email" 
+                placeholder="Enter your email address" 
+                className="flex-1 bg-slate-800 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary transition-all"
+              />
+              <button className="bg-primary text-white font-black text-xs uppercase tracking-widest px-8 py-3 rounded-xl hover:bg-primary-hover transition-all shadow-lg shadow-primary/20">
+                Subscribe
+              </button>
+            </form>
           </div>
 
           {/* Contact Info */}
@@ -78,15 +70,6 @@ export default function Footer() {
                 <div>
                   <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Call Us</p>
                   <p className="text-sm font-bold text-slate-200">+880 1234 567890</p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4 group">
-                <div className="bg-slate-800 p-2.5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-colors">
-                  <Mail className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">Email Us</p>
-                  <p className="text-sm font-bold text-slate-200">support@globaltrade.com</p>
                 </div>
               </li>
             </ul>

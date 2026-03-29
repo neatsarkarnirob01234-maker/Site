@@ -50,6 +50,19 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[100] bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+      {/* Announcement Bar */}
+      <div className="bg-primary text-white py-1.5 px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] flex-1 text-center">
+            Free Shipping on orders over $100 • Direct from China Manufacturers
+          </p>
+          <div className="hidden sm:flex items-center gap-4">
+            <Link to="/track-order" className="text-[10px] font-black uppercase tracking-widest hover:text-secondary transition-colors">Track Order</Link>
+            <Link to="/help" className="text-[10px] font-black uppercase tracking-widest hover:text-secondary transition-colors">Help</Link>
+          </div>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Mobile Menu Toggle */}
@@ -62,17 +75,16 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
 
           <Link to="/" className="flex-shrink-0 flex items-center group">
             <div className="flex items-center gap-3">
-              <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
-                <ShoppingCart className="h-6 w-6 text-white" />
-              </div>
-              <div className="flex flex-col -space-y-1">
-                <span className="text-xl font-black text-slate-900 tracking-tighter uppercase leading-none">China Importer</span>
-                <span className="text-[9px] font-bold text-secondary tracking-[0.3em] uppercase whitespace-nowrap">Your Trusted Partner</span>
-              </div>
+              <img 
+                src="https://storage.googleapis.com/antigravity-attachments/67e7c91c-1f48-479e-8c38-890987c9802d/logo.png" 
+                alt="China Importer Logo" 
+                className="h-12 w-auto group-hover:scale-105 transition-transform"
+                referrerPolicy="no-referrer"
+              />
             </div>
           </Link>
 
-          {/* Search Bar */}
+          {/* Search Bar */} 
           <form onSubmit={handleSearchSubmit} className="flex-1 max-w-2xl hidden md:block">
             <div className="relative group">
               <input
@@ -112,7 +124,7 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
             </div>
           </form>
 
-          {/* Actions */}
+          {/* Actions */} 
           <div className="flex items-center gap-2 sm:gap-4">
             <Link to="/wishlist" className="relative p-2 text-gray-600 hover:text-primary transition-colors">
               <Heart className="h-6 w-6" />
@@ -139,7 +151,18 @@ export default function Header({ onMenuClick }: { onMenuClick: () => void }) {
           </div>
         </div>
         
-        {/* Mobile Search Bar */}
+        {/* Navigation Bar (Desktop) */}
+        <div className="hidden lg:flex items-center justify-center gap-8 py-2 border-t border-gray-100">
+          <Link to="/" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Home</Link>
+          <Link to="/category/clothing" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Clothing</Link>
+          <Link to="/category/electronics" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Electronics</Link>
+          <Link to="/category/shoes" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Shoes</Link>
+          <Link to="/category/bags" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Bags</Link>
+          <Link to="/category/watches" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Watches</Link>
+          <Link to="/category/jewelry" className="text-xs font-black uppercase tracking-widest text-slate-600 hover:text-primary transition-colors">Jewelry</Link>
+        </div>
+
+        {/* Mobile Search Bar */} 
         <div className="md:hidden pb-4">
           <form onSubmit={handleSearchSubmit} className="relative group">
             <input
